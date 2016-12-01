@@ -65,12 +65,11 @@ def saveLines(lines, path):
     buf += '//lizhiqi @ 58 \r\n'
     buf += '生成时间: ' + getTimeStamp() + '\r\n'
 
-    print 'buffer ==>', buf
     for header in g_std_headers:
-        buf.join('#include<').join(header).join('>\r\n')
+        buf += '#include<' + header + '>\r\n'
 
     for line in lines:
-        buf.join(line).join('\r\n')
+        buf += line + '\r\n'
 
     header_file = open(path, 'w')
     header_file.write(buf)
@@ -117,9 +116,9 @@ def assmbleHeader(file_name):
 
         print ' 读取', file_path
 
-        once_pattern = r'=(^\s*#pragma\s*once\s*$)='
-        std_header_pattern = r'=(^\s*#\s*include\s*<([.\w]+)>\s*$)='
-        my_header_pattern = r'=(^\s*#\s*include\s*"([.\\/\w]+)"\s*$)='
+        once_pattern = r'^\s*#pragma\s*once\s*$'
+        std_header_pattern = r'^\s*#\s*include\s*<([.\w]+)>\s*$'
+        my_header_pattern = r'^\s*#\s*include\s*"([.\\/\w]+)"\s*$'
 
         file = open(file_path, 'r')
         file_lines = file.readlines()
@@ -128,14 +127,27 @@ def assmbleHeader(file_name):
         for line in file_lines:
 
             if re.match(once_pattern, line):
+                print "match once pattern"
                 g_included_header.append(file_name)
+
             elif re.match(std_header_pattern, line):
-                g_std_headers.append()
+                print "match std header"
+                std_match = re.match(std_header_pattern, line).group(1)
+                std_match = os.path.basename(std_match)
+                g_std_headers.append(std_match)
+
             elif re.match(my_header_pattern, line):
-                g_search_dir.append(os.path.pardir(file_path))
-                sub_lines = assmbleHeader()
+                print 'match my header '
+                g_search_dir.append(os.path.dirname(file_path))
+
+                my_match = re.match(my_header_pattern, line).group(1)
+                my_match = os.path.basename(my_match)
+
+                sub_lines = assmbleHeader(my_match)
+
                 g_search_dir.pop()
                 result_lines.extend(sub_lines)
+
             else:
                 result_lines.append(line)
         file.close()
