@@ -60,11 +60,12 @@ def saveLines(lines, path):
     path = os.path.abspath(path)
     print ' 合并至:', path
 
-    buf = '#pragma once \r\n\r\n'
-    buf.join('// 本文件由 python  Header Assembler 自动生成，请勿手动修改\r\n')
-    buf.join('// https://github.com/icexile/HeaderAssembler \r\n')
-    buf.join('生成时间: ').join(getTimeStamp()).join('\r\n')
+    buf = '#pragma once\r\n'
+    buf += '// 本文件由 python  Header Assembler 自动生成，请勿手动修改\r\n'
+    buf += '//lizhiqi @ 58 \r\n'
+    buf += '生成时间: ' + getTimeStamp() + '\r\n'
 
+    print 'buffer ==>', buf
     for header in g_std_headers:
         buf.join('#include<').join(header).join('>\r\n')
 
@@ -79,7 +80,6 @@ def saveLines(lines, path):
     return
 
 
-# 校验文件存在并转化为绝对路径
 def resolve(file_name):
     global g_search_dir
 
