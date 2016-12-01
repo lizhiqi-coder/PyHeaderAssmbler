@@ -57,6 +57,7 @@ def getTimeStamp():
 
 def saveLines(lines, path):
     global g_std_headers
+    path = os.path.abspath(path)
     print ' 合并至:', path
 
     buf = '#pragma once \r\n\r\n'
