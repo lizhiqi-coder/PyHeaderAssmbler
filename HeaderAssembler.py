@@ -74,11 +74,15 @@ def saveLines(lines, path):
     for line in lines:
         buf += line
 
+    if not os.path.isfile(path):
+        print " 目的路径请包含文件名！"
+        return
+
     header_file = open(path, 'w')
     header_file.write(buf)
 
     header_file.close()
-
+    print ' 合并成功 ！'
     return
 
 
@@ -119,7 +123,7 @@ def assmbleHeader(file_name):
 
         print ' 读取', file_path
 
-        once_pattern = r'^\S*\s*#pragma\s*once\s*$'#文件开头有特殊字符
+        once_pattern = r'^\S*\s*#pragma\s*once\s*$'  # 文件开头有特殊字符
         std_header_pattern = r'^\s*#\s*include\s*<([.\w]+)>\s*$'
         my_header_pattern = r'^\s*#\s*include\s*"([.\\/\w]+)"\s*$'
 
