@@ -119,7 +119,7 @@ def assmbleHeader(file_name):
 
         print ' 读取', file_path
 
-        once_pattern = r'^\s*#pragma\s*once\s*$'
+        once_pattern = r'^\S*\s*#pragma\s*once\s*$'#文件开头有特殊字符
         std_header_pattern = r'^\s*#\s*include\s*<([.\w]+)>\s*$'
         my_header_pattern = r'^\s*#\s*include\s*"([.\\/\w]+)"\s*$'
 
