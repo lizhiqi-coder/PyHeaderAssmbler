@@ -61,15 +61,15 @@ def saveLines(lines, path):
     print ' 合并至:', path
 
     buf = '#pragma once\r\n'
-    buf += '// 本文件由 python  Header Assembler 自动生成，请勿手动修改\r\n'
-    buf += '//lizhiqi @ 58 \r\n'
-    buf += '生成时间: ' + getTimeStamp() + '\r\n'
+    buf += '// 本文件由 python  Header Assembler 自动生成，请勿手动修改\r'
+    buf += '//lizhiqi @ 58 \r'
+    buf += '//生成时间: ' + getTimeStamp() + '\r\n'
 
     for header in g_std_headers:
-        buf += '#include<' + header + '>\r\n'
+        buf += '#include<' + header + '>\r'
 
     for line in lines:
-        buf += line + '\r\n'
+        buf += line
 
     header_file = open(path, 'w')
     header_file.write(buf)
@@ -90,7 +90,6 @@ def resolve(file_name):
         abs_file_path = findFile(abs_current_dir, file_name)
 
         if abs_file_path != 'null':
-            print 'abs_file_path-->', abs_file_path
             return abs_file_path
 
     raise Exception("无法定位文件：", file_name)
@@ -127,17 +126,15 @@ def assmbleHeader(file_name):
         for line in file_lines:
 
             if re.match(once_pattern, line):
-                print "match once pattern"
                 g_included_header.append(file_name)
 
             elif re.match(std_header_pattern, line):
-                print "match std header"
                 std_match = re.match(std_header_pattern, line).group(1)
                 std_match = os.path.basename(std_match)
-                g_std_headers.append(std_match)
+                if std_match not in g_std_headers:
+                    g_std_headers.append(std_match)
 
             elif re.match(my_header_pattern, line):
-                print 'match my header '
                 g_search_dir.append(os.path.dirname(file_path))
 
                 my_match = re.match(my_header_pattern, line).group(1)
