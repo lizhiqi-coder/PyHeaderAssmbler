@@ -1,0 +1,1 @@
+python HeaderAssembler.py gmacs.h D:\workspace\IM\wchat-cpp\gmacs\base\base.shared;D:\workspace\IM\wchat-cpp\gmacs\bll\bll.shared;D:\workspace\IM\wchat-cpp\gmacs\bll\bll.shared\if2; ./
