@@ -61,6 +61,14 @@ def getTimeStamp():
 def saveLines(lines, path):
     global g_std_headers
     path = os.path.abspath(path)
+
+    if not path.endswith('.h'):
+        print " 目的路径请包含头文件名！"
+        return
+
+    dir = os.path.dirname(path)
+    if not os.path.exists(dir):
+        os.mkdir(dir)
     print ' 合并至:', path
 
     buf = '#pragma once\r\n'
@@ -74,14 +82,15 @@ def saveLines(lines, path):
     for line in lines:
         buf += line
 
-    if not os.path.isfile(path):
-        print " 目的路径请包含文件名！"
-        return
+    try:
+        header_file = open(path, 'w')
 
-    header_file = open(path, 'w')
-    header_file.write(buf)
+        header_file.write(buf)
 
-    header_file.close()
+        header_file.close()
+    except IOError:
+        print 'IOError'
+
     print ' 合并成功 ！'
     return
 
