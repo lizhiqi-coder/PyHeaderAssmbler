@@ -116,28 +116,29 @@ def assmbleHeader(file_name):
 
         print ' 读取', file_path
 
-    once_pattern = r'=(^\s*#pragma\s*once\s*$)='
-    std_header_pattern = r'=(^\s*#\s*include\s*<([.\w]+)>\s*$)='
-    my_header_pattern = r'=(^\s*#\s*include\s*"([.\\/\w]+)"\s*$)='
+        once_pattern = r'=(^\s*#pragma\s*once\s*$)='
+        std_header_pattern = r'=(^\s*#\s*include\s*<([.\w]+)>\s*$)='
+        my_header_pattern = r'=(^\s*#\s*include\s*"([.\\/\w]+)"\s*$)='
 
-    file = open(file_path, 'r')
-    file_lines = file.readlines()
-    result_lines = []
+        file = open(file_path, 'r')
+        file_lines = file.readlines()
+        result_lines = []
 
-    for line in file_lines:
+        for line in file_lines:
 
-        if re.match(once_pattern, line):
-            g_included_header.append(file_name)
-        elif re.match(std_header_pattern, line):
-            g_std_headers.append()
-        elif re.match(my_header_pattern, line):
-            g_search_dir.append(os.path.pardir(file_path))
-            sub_lines = assmbleHeader()
-            g_search_dir.pop()
-            result_lines.extend(sub_lines)
-        else:
-            result_lines.append(line)
-    file.close()
+            if re.match(once_pattern, line):
+                g_included_header.append(file_name)
+            elif re.match(std_header_pattern, line):
+                g_std_headers.append()
+            elif re.match(my_header_pattern, line):
+                g_search_dir.append(os.path.pardir(file_path))
+                sub_lines = assmbleHeader()
+                g_search_dir.pop()
+                result_lines.extend(sub_lines)
+            else:
+                result_lines.append(line)
+        file.close()
+
     return result_lines
 
 
