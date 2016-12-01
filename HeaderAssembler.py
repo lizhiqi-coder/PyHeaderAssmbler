@@ -93,7 +93,7 @@ def resolve(file_name):
 
         abs_current_dir = os.path.abspath(current_dir)
         findFile(abs_current_dir, file_name)
-        # todo
+
         abs_file_path = findFile(abs_current_dir, file_name)
 
         if abs_file_path != 'null':
