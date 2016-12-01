@@ -16,10 +16,12 @@ param_search_dir = ""
 global g_search_dir
 global g_included_header
 global g_std_headers
+global g_already_files
 
 g_search_dir = []
 g_included_header = []
 g_std_headers = []
+g_already_files = []
 
 
 def initParam():
@@ -48,6 +50,7 @@ def initSearchDirs(paths):
 
     for dir in g_search_dir:
         print ' 初始化搜索路径：', dir
+    print '\r\n'
     return
 
 
@@ -108,6 +111,7 @@ def assmbleHeader(file_name):
     global g_included_header
     global g_std_headers
     global g_search_dir
+    global g_already_files
 
     if file_name not in g_included_header:  # 当不存在时
 
@@ -135,10 +139,15 @@ def assmbleHeader(file_name):
                     g_std_headers.append(std_match)
 
             elif re.match(my_header_pattern, line):
-                g_search_dir.append(os.path.dirname(file_path))
 
                 my_match = re.match(my_header_pattern, line).group(1)
                 my_match = os.path.basename(my_match)
+                if my_match in g_already_files:
+                    continue
+                else:
+                    g_already_files.append(my_match)
+
+                g_search_dir.append(os.path.dirname(file_path))
 
                 sub_lines = assmbleHeader(my_match)
 
