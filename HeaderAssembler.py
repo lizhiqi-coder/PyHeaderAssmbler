@@ -75,6 +75,7 @@ def saveLines(lines, path):
     buf += '// 本文件由 python  Header Assembler 自动生成，请勿手动修改\r'
     buf += '//lizhiqi @ 58 \r'
     buf += '//生成时间: ' + getTimeStamp() + '\r\n'
+    buf += '#define HEADER_ASSEMBLER_TIME ' + '\"' + getTimeStamp() + '\"\r\n'
 
     for header in g_std_headers:
         buf += '#include<' + header + '>\r'
